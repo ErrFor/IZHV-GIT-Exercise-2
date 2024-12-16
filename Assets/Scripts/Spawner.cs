@@ -55,6 +55,16 @@ public class Spawner : MonoBehaviour
     /// </summary>
     private float nextSpawnIn = 0.0f;
 
+     /// <summary>
+    /// Probability of spawning multiple obstacles in a row.
+    /// </summary>
+    public float multipleObstacleProbability = 0.4f;
+
+    /// <summary>
+    /// Time between two obstacles in a row.
+    /// </summary>
+    public float ObstacleTimeOffset = 0.2f;
+
     /// <summary>
     /// Called before the first frame update.
     /// </summary>
@@ -75,6 +85,12 @@ public class Spawner : MonoBehaviour
                 nextSpawnIn = RandomNormal(spawnFrequencyMean, spawnFrequencyStd);
                 
                 SpawnObstacle();
+
+                // Check if we should spawn another obstacle.
+                if (Random.value < multipleObstacleProbability)
+                {
+                    Invoke(nameof(SpawnObstacle), ObstacleTimeOffset);
+                }
             }
         }
     }
